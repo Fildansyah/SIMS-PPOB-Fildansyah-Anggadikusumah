@@ -8,9 +8,11 @@ import {
   MdVisibility,
   MdVisibilityOff,
 } from "react-icons/md";
+import { useAuth } from "@/GlobalRedux/auth/authHooks";
 
 const LoginForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const { loginUser } = useAuth();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -32,7 +34,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(loginData);
+    loginUser(loginData.email, loginData.password);
   };
 
   return (
