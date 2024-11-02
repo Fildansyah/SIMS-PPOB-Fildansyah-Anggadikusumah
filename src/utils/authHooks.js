@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setToken, logout } from "../services/auth/authSlice";
 import { selectAuthState } from "../services/store";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
+import { useLayoutEffect } from "react";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -44,11 +46,22 @@ export const useAuth = () => {
     }
   };
 
+  const useAuthRedirect = () => {
+    const router = useRouter();
+
+    useLayoutEffect(() => {
+      if (!isAuthenticated()) {
+        router.push("/login");
+      }
+    }, [router, isAuthenticated]);
+  };
+
   return {
     loginUser,
     isLoading,
     error,
     logoutUser,
     isAuthenticated,
+    useAuthRedirect,
   };
 };

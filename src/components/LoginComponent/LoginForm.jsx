@@ -54,7 +54,7 @@ const LoginForm = ({ loginData, isError, isLoading }) => {
           leftComponent={
             <MdLock
               size={14}
-              color={isError() ? "red" : data.password ? "black" : "gray"}
+              color={isError ? "red" : data.password ? "black" : "gray"}
             />
           }
           type={passwordVisible ? "text" : "password"}
@@ -62,7 +62,7 @@ const LoginForm = ({ loginData, isError, isLoading }) => {
           id="password"
           rightComponent={passwordVisibility}
           value={data.password}
-          hasError={isError()}
+          hasError={isError}
           onChange={(e) =>
             setData((prev) => ({ ...prev, password: e.target.value }))
           }

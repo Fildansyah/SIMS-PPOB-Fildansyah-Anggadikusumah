@@ -15,7 +15,7 @@ const InputText = ({
         }`}
       >
         {leftComponent}
-        <input className="w-full outline-none" {...props} />
+        <input className="w-full outline-none disabled:bg-white" {...props} />
         {rightComponent}
       </div>
       {hasError && (

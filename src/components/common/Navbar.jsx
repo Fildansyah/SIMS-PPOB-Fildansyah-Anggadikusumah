@@ -3,10 +3,11 @@
 import React from "react";
 import { Logo } from ".";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const navItems = [
     {
@@ -25,7 +26,12 @@ const Navbar = () => {
 
   return (
     <header className="flex items-center justify-between px-52 py-5 border-b">
-      <Logo iconSize={32} textSize={24} />
+      <Logo
+        onClick={() => router.push("/")}
+        iconSize={32}
+        textSize={24}
+        clickable
+      />
 
       <div className="flex gap-10 items-center">
         {navItems.map((item) => (

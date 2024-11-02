@@ -2,9 +2,14 @@ import React from "react";
 import logo from "../../../public/assets/Logo.png";
 import Image from "next/image";
 
-const Logo = ({ iconSize = 32, textSize = 24 }) => {
+const Logo = ({ iconSize = 32, textSize = 24, onClick, clickable }) => {
   return (
-    <div className="flex items-center gap-2 justify-center">
+    <div
+      onClick={onClick}
+      className={`flex items-center gap-2 justify-center ${
+        clickable ? "cursor-pointer" : "cursor-default"
+      }`}
+    >
       <Image
         src={logo}
         alt="Logo"

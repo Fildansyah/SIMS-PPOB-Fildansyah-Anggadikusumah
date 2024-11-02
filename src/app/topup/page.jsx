@@ -8,13 +8,18 @@ import {
   TopupInput,
 } from "@/components";
 import { useTopupMutation } from "@/services/transaction/transactionApi";
-import React, { useEffect, useState } from "react";
+import { useAuth } from "@/utils/authHooks";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 export default function Topup() {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [openNotificationModal, setOpenNotificationModal] = useState(false);
-  const [topup, { isError, isSuccess, isLoading, data }] = useTopupMutation();
+  const { useAuthRedirect } = useAuth();
+
+  const [topup, { isError, isSuccess, isLoading }] = useTopupMutation();
   const [amount, setAmount] = useState("");
+
+  useAuthRedirect();
 
   useEffect(() => {
     if (isSuccess || isError) {
@@ -22,8 +27,6 @@ export default function Topup() {
       setOpenConfirmationModal(false);
     }
   }, [isError, isSuccess, setOpenNotificationModal]);
-
-  console.log("data", data);
 
   return (
     <div className="h-screen flex flex-col w-full ">
