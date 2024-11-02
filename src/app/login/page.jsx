@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Logo, LoginForm } from "@/components";
+import { Logo, LoginForm, Toast } from "@/components";
 
 import Image from "next/image";
 import ilustrasi from "../../../public/assets/illustrasi_Login.png";
@@ -11,7 +11,7 @@ export default function Login() {
   const router = useRouter();
 
   return (
-    <div className="h-full flex">
+    <div className="h-full flex relative">
       <div className="flex w-full gap-10 flex-col items-center justify-center px-[100px] py-10">
         <div className="flex flex-col gap-4">
           <Logo iconSize={24} />
@@ -29,6 +29,7 @@ export default function Login() {
             di sini
           </span>
         </p>
+        <Toast isVisible={false} />
       </div>
       <div className="w-full h-full relative bg-[#fff2f0]">
         <Image src={ilustrasi} alt="login" fill className="object-cover" />

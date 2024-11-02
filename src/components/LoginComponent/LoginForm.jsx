@@ -11,47 +11,59 @@ import {
 
 const LoginForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const passwordVisibility = passwordVisible ? (
+    <MdVisibilityOff
+      size={16}
+      color="gray"
+      onClick={() => setPasswordVisible(false)}
+    />
+  ) : (
+    <MdVisibility
+      size={16}
+      color="gray"
+      onClick={() => setPasswordVisible(true)}
+    />
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
-    console.log(data);
+    console.log(loginData);
   };
 
   return (
-    <form className="w-full flex flex-col gap-12" onSubmit={handleSubmit}>
+    <form className="w-[60%] flex flex-col gap-12" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4 w-full">
         <InputText
-          startChild={<MdAlternateEmail size={14} color="gray" />}
+          leftComponent={
+            <MdAlternateEmail
+              size={14}
+              color={loginData.email ? "black" : "gray"}
+            />
+          }
           placeholder="masukan email anda"
           type="email"
           id="email"
-          name="email"
+          value={loginData.email}
+          onChange={(e) =>
+            setLoginData((prev) => ({ ...prev, email: e.target.value }))
+          }
         />
         <InputText
-          startChild={<MdLock size={14} color="gray" />}
+          leftComponent={
+            <MdLock size={14} color={loginData.password ? "black" : "gray"} />
+          }
           type={passwordVisible ? "text" : "password"}
           placeholder="masukan password anda"
           id="password"
-          name="password"
-          endChild={
-            passwordVisible ? (
-              <MdVisibilityOff
-                size={16}
-                color="gray"
-                onClick={() => setPasswordVisible(false)}
-              />
-            ) : (
-              <MdVisibility
-                size={16}
-                color="gray"
-                onClick={() => setPasswordVisible(true)}
-              />
-            )
+          rightComponent={passwordVisibility}
+          value={loginData.password}
+          onChange={(e) =>
+            setLoginData((prev) => ({ ...prev, password: e.target.value }))
           }
         />
       </div>
