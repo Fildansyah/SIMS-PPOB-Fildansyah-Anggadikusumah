@@ -6,9 +6,30 @@ import profpic from "../../../public/assets/Profile Photo.png";
 import { useGetProfileQuery } from "@/GlobalRedux/auth/authApi";
 
 const ProfileSection = () => {
-  const { data } = useGetProfileQuery();
+  const { data, isLoading, error } = useGetProfileQuery();
 
   const profileData = data?.data;
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-2 w-full">
+        <div className="w-[100px] h-[100px] relative rounded-full bg-gray-200 animate-pulse" />
+
+        <div className="flex flex-col gap-2">
+          <div className="w-1/3 h-4 bg-gray-200 animate-pulse rounded" />
+          <div className="w-2/3 h-6 bg-gray-200 animate-pulse rounded" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center">
+        <p>Failed to load profile. Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2 w-full">

@@ -1,14 +1,18 @@
 "use client";
 
+import { useGetBalanceQuery } from "@/GlobalRedux/balance/balanceApi";
 import React, { useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const BalanceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { data, isLoading } = useGetBalanceQuery();
 
   const handleVisibilityToggle = () => {
     setIsVisible(!isVisible);
   };
+
+  const balance = parseInt(data?.data?.balance || 0).toLocaleString("id-ID");
 
   return (
     <div
@@ -24,7 +28,13 @@ const BalanceSection = () => {
       <div className="h-full flex items-center gap-2">
         <p className="text-3xl font-semibold">Rp</p>
 
-        <p className="text-3xl font-semibold">{isVisible ? "0" : "••••••••"}</p>
+        {isLoading ? (
+          <p className="text-3xl font-semibold animate-pulse">••••••••</p>
+        ) : (
+          <p className="text-3xl font-semibold">
+            {isVisible ? balance : "••••••••"}
+          </p>
+        )}
       </div>
 
       <div className="flex items-center gap-2 ">

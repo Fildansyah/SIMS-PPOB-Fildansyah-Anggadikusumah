@@ -2,20 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseUrl = process.env.BASE_URL;
 
-export const authApi = createApi({
-  reducerPath: "authApi",
+export const balanceApi = createApi({
+  reducerPath: "balanceApi",
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (credentials) => ({
-        url: "/login",
-        method: "POST",
-        body: credentials,
-      }),
-    }),
-    getProfile: builder.query({
+    getBalance: builder.query({
       query: () => ({
-        url: "/profile",
+        url: "/balance",
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -25,4 +18,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useGetProfileQuery } = authApi;
+export const { useGetBalanceQuery } = balanceApi;
