@@ -10,11 +10,13 @@ import { useAuth } from "@/GlobalRedux/auth/authHooks";
 
 export default function Login() {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading, error, loginUser } = useAuth();
 
   useLayoutEffect(() => {
     if (isAuthenticated()) router.push("/");
   }, [isAuthenticated, router]);
+
+  const isError = error !== undefined ? true : false;
 
   return (
     <div className="h-full flex relative">
@@ -25,7 +27,11 @@ export default function Login() {
             Masuk atau buat akun untuk memulai
           </h1>
         </div>
-        <LoginForm />
+        <LoginForm
+          loginData={(data) => loginUser(data.email, data.password)}
+          isError={isError}
+          isLoading={isLoading}
+        />
         <p className="text-sm text-gray-500">
           Belum punya akun? registrasi{" "}
           <span
@@ -35,7 +41,7 @@ export default function Login() {
             di sini
           </span>
         </p>
-        <Toast isVisible={false} />
+        <Toast isVisible={isError} message={error?.data?.message} />
       </div>
       <div className="w-full h-full relative bg-[#fff2f0]">
         <Image src={ilustrasi} alt="login" fill className="object-cover" />

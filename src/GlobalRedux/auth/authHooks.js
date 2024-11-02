@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  const [login, { isLoading, error }] = useLoginMutation();
   const { token } = useSelector(selectAuthState);
 
   const loginUser = async (email, password) => {
@@ -47,6 +47,8 @@ export const useAuth = () => {
 
   return {
     loginUser,
+    isLoading,
+    error,
     logoutUser,
     isAuthenticated,
   };

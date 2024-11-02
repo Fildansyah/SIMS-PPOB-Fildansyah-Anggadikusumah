@@ -8,12 +8,10 @@ import {
   MdVisibility,
   MdVisibilityOff,
 } from "react-icons/md";
-import { useAuth } from "@/GlobalRedux/auth/authHooks";
 
-const LoginForm = () => {
+const LoginForm = ({ loginData, isError, isLoading }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { loginUser } = useAuth();
-  const [loginData, setLoginData] = useState({
+  const [data, setData] = useState({
     email: "",
     password: "",
   });
@@ -34,7 +32,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(loginData.email, loginData.password);
+    loginData(data);
   };
 
   return (
@@ -42,39 +40,41 @@ const LoginForm = () => {
       <div className="flex flex-col gap-4 w-full">
         <InputText
           leftComponent={
-            <MdAlternateEmail
-              size={14}
-              color={loginData.email ? "black" : "gray"}
-            />
+            <MdAlternateEmail size={14} color={data.email ? "black" : "gray"} />
           }
           placeholder="masukan email anda"
           type="email"
           id="email"
-          value={loginData.email}
+          value={data.email}
           onChange={(e) =>
-            setLoginData((prev) => ({ ...prev, email: e.target.value }))
+            setData((prev) => ({ ...prev, email: e.target.value }))
           }
         />
         <InputText
           leftComponent={
-            <MdLock size={14} color={loginData.password ? "black" : "gray"} />
+            <MdLock
+              size={14}
+              color={isError() ? "red" : data.password ? "black" : "gray"}
+            />
           }
           type={passwordVisible ? "text" : "password"}
           placeholder="masukan password anda"
           id="password"
           rightComponent={passwordVisibility}
-          value={loginData.password}
+          value={data.password}
+          hasError={isError()}
           onChange={(e) =>
-            setLoginData((prev) => ({ ...prev, password: e.target.value }))
+            setData((prev) => ({ ...prev, password: e.target.value }))
           }
         />
       </div>
 
       <Button
         type="submit"
+        disabled={isLoading}
         className="w-full bg-red-500 py-2 rounded-sm text-white font-semibold hover:bg-red-600 hover:shadow-md transition-all"
       >
-        Masuk
+        {isLoading ? "Loading..." : "Masuk"}
       </Button>
     </form>
   );

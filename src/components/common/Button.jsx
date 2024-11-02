@@ -4,7 +4,7 @@ const Button = ({ children, disabled, className, ...props }) => {
   return (
     <button
       disabled={disabled}
-      className={`${className} ${disabled && "bg-gray-300"}`}
+      className={`${className} ${disabled && "!bg-gray-300"}`}
       {...props}
     >
       {children}
