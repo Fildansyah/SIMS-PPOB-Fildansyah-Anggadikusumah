@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import { Logo } from ".";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
+
   const navItems = [
     {
       name: "Top Up",
@@ -24,7 +29,13 @@ const Navbar = () => {
 
       <div className="flex gap-10 items-center">
         {navItems.map((item) => (
-          <Link key={item.name} href={item.link} className="hover:text-red-600">
+          <Link
+            key={item.name}
+            href={item.link}
+            className={`hover:text-red-600 ${
+              pathname === item.link && "text-red-600 font-semibold"
+            }`}
+          >
             {item.name}
           </Link>
         ))}

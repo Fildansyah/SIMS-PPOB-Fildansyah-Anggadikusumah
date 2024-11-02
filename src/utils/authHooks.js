@@ -15,7 +15,6 @@ export const useAuth = () => {
     try {
       const { data } = await login({ email, password }).unwrap();
       dispatch(setToken(data.token));
-      console.log(data);
     } catch (error) {
       console.error("Login failed", error);
     }
