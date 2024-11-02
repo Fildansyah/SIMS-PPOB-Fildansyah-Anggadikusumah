@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import profpic from "../../../public/assets/Profile Photo.png";
-import { useGetProfileQuery } from "@/GlobalRedux/auth/authApi";
+import { useGetProfileQuery } from "@/services/auth/authApi";
 
 const ProfileSection = () => {
   const { data, isLoading, error } = useGetProfileQuery();

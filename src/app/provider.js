@@ -1,5 +1,5 @@
 "use client";
-import { store } from "@/GlobalRedux/store";
+import { store } from "@/services/store";
 import { Provider } from "react-redux";
 
 export function Providers({ children }) {

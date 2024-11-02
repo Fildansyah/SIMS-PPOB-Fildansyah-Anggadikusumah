@@ -1,9 +1,9 @@
 "use client";
 
-import { useLoginMutation } from "./authApi";
+import { useLoginMutation } from "../services/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken, logout } from "./authSlice";
-import { selectAuthState } from "../store";
+import { setToken, logout } from "../services/auth/authSlice";
+import { selectAuthState } from "../services/store";
 import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {

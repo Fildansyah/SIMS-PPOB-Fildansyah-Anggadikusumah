@@ -6,7 +6,7 @@ import { Logo, LoginForm, Toast } from "@/components";
 import Image from "next/image";
 import ilustrasi from "../../../public/assets/illustrasi_Login.png";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/GlobalRedux/auth/authHooks";
+import { useAuth } from "@/utils/authHooks";
 
 export default function Login() {
   const router = useRouter();

@@ -1,5 +1,5 @@
 "use client";
-import { useGetServicesQuery } from "@/GlobalRedux/information/informationApi";
+import { useGetServicesQuery } from "@/services/information/informationApi";
 import Image from "next/image";
 import React from "react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetBalanceQuery } from "@/GlobalRedux/balance/balanceApi";
+import { useGetBalanceQuery } from "@/services/balance/balanceApi";
 import React, { useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 

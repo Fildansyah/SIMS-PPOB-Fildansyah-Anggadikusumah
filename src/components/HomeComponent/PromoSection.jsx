@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Slider } from "../common";
-import { useGetBannersQuery } from "@/GlobalRedux/information/informationApi";
+import { useGetBannersQuery } from "@/services/information/informationApi";
 
 const PromoSection = () => {
   const { data, isLoading, error } = useGetBannersQuery();

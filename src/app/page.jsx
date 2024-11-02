@@ -8,7 +8,7 @@ import {
   PromoSection,
   ServicesSection,
 } from "@/components";
-import { useAuth } from "@/GlobalRedux/auth/authHooks";
+import { useAuth } from "@/utils/authHooks";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
