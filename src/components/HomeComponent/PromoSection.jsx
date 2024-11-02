@@ -2,46 +2,38 @@
 
 import React from "react";
 import { Slider } from "../common";
+import { useGetBannersQuery } from "@/GlobalRedux/information/informationApi";
 
 const PromoSection = () => {
-  const payload = {
-    status: 0,
-    message: "Sukses",
-    data: [
-      {
-        banner_name: "Banner 1",
-        banner_image:
-          "https://minio.nutech-integrasi.com/take-home-test/banner/Banner-1.png",
-        description: "Lerem Ipsum Dolor sit amet",
-      },
-      {
-        banner_name: "Banner 2",
-        banner_image:
-          "https://minio.nutech-integrasi.com/take-home-test/banner/Banner-2.png",
-        description: "Lerem Ipsum Dolor sit amet",
-      },
-      {
-        banner_name: "Banner 3",
-        banner_image:
-          "https://minio.nutech-integrasi.com/take-home-test/banner/Banner-3.png",
-        description: "Lerem Ipsum Dolor sit amet",
-      },
-      {
-        banner_name: "Banner 4",
-        banner_image:
-          "https://minio.nutech-integrasi.com/take-home-test/banner/Banner-4.png",
-        description: "Lerem Ipsum Dolor sit amet",
-      },
-      {
-        banner_name: "Banner 5",
-        banner_image:
-          "https://minio.nutech-integrasi.com/take-home-test/banner/Banner-5.png",
-        description: "Lerem Ipsum Dolor sit amet",
-      },
-    ],
-  };
+  const { data, isLoading, error } = useGetBannersQuery();
 
-  const imageData = payload.data.map((item, index) => {
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-5">
+        <p className="font-semibold">Temukan promo menarik</p>
+
+        <div className="flex  gap-10">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div className="w-[450px] h-[60px] rounded-xl bg-gray-200 animate-pulse" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center">
+        <p>Failed to load banners. Please try again later.</p>
+      </div>
+    );
+  }
+
+  console.log(data);
+
+  const imageData = data?.data.map((item, index) => {
     return item.banner_image;
   });
 
