@@ -36,9 +36,9 @@ export default function Pembayaran() {
       isLoading: isTransactionLoading,
     },
   ] = useTransactionMutation();
-  const { useAuthRedirect, isAuthenticated } = useAuth();
+  const { useAuthlessRedirect, isAuthenticated } = useAuth();
 
-  useAuthRedirect();
+  useAuthlessRedirect();
   const service =
     isSuccess && data?.data.find((item) => item.service_code === service_code);
 

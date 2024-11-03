@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { Logo, LoginForm, Toast } from "@/components";
 
 import Image from "next/image";
@@ -10,13 +10,12 @@ import { useAuth } from "@/utils/authHooks";
 
 export default function Login() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, error, loginUser } = useAuth();
-
-  useLayoutEffect(() => {
-    if (isAuthenticated()) router.push("/");
-  }, [isAuthenticated, router]);
+  const { isAuthenticated, isLoading, error, loginUser, useAuthRedirect } =
+    useAuth();
 
   const isError = error !== undefined ? true : false;
+
+  useAuthRedirect();
 
   if (isAuthenticated()) {
     return null;

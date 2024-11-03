@@ -1,22 +1,30 @@
 "use client";
 
 import { useLoginMutation } from "../services/auth/authApi";
-import { useDispatch, useSelector } from "react-redux";
-import { setToken, logout } from "../services/auth/authSlice";
-import { selectAuthState } from "../services/store";
+import { useDispatch } from "react-redux";
+import { logout } from "../services/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
-import { useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
-  const { token } = useSelector(selectAuthState);
+  const [token, setToken] = useState(null);
+  const [isTokenLoaded, setIsTokenLoaded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedToken = localStorage.getItem("token");
+      setToken(savedToken);
+      setIsTokenLoaded(true);
+    }
+  }, []);
 
   const loginUser = async (email, password) => {
     try {
       const { data } = await login({ email, password }).unwrap();
-      dispatch(setToken(data.token));
+      localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("Login failed", error);
     }
@@ -26,9 +34,8 @@ export const useAuth = () => {
     dispatch(logout());
   };
 
-  const isAuthenticated = () => {
+  const isAuthenticated = async () => {
     if (!token) {
-      console.log("No token found");
       return false;
     }
 
@@ -46,14 +53,23 @@ export const useAuth = () => {
     }
   };
 
-  const useAuthRedirect = () => {
+  const useAuthlessRedirect = () => {
     const router = useRouter();
 
-    useLayoutEffect(() => {
-      if (!isAuthenticated()) {
+    useEffect(() => {
+      if (isTokenLoaded && !isAuthenticated()) {
         router.push("/login");
       }
-    }, [router, isAuthenticated]);
+    }, [router, isTokenLoaded, token]);
+  };
+
+  const useAuthRedirect = () => {
+    const router = useRouter();
+    useEffect(() => {
+      if (isTokenLoaded && isAuthenticated()) {
+        router.push("/");
+      }
+    }, [router, isTokenLoaded, token]);
   };
 
   return {
@@ -62,6 +78,7 @@ export const useAuth = () => {
     error,
     logoutUser,
     isAuthenticated,
+    useAuthlessRedirect,
     useAuthRedirect,
   };
 };

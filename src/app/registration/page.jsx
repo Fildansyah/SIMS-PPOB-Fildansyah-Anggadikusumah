@@ -2,18 +2,16 @@
 
 import { Logo, RegistNotificationModal, RegistrationForm } from "@/components";
 import Image from "next/image";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import ilustrasi from "../../../public/assets/illustrasi_Login.png";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/utils/authHooks";
 
 export default function Registration() {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, useAuthRedirect } = useAuth();
 
-  useLayoutEffect(() => {
-    if (isAuthenticated()) router.push("/");
-  }, [isAuthenticated, router]);
+  useAuthRedirect();
 
   if (isAuthenticated()) return null;
 

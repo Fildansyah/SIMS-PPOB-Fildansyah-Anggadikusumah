@@ -19,9 +19,9 @@ export default function Transaction() {
     offset,
   });
 
-  const { useAuthRedirect, isAuthenticated } = useAuth();
+  const { useAuthlessRedirect, isAuthenticated } = useAuth();
 
-  useAuthRedirect();
+  useAuthlessRedirect();
 
   useEffect(() => {
     if (data?.data?.records) {

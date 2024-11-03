@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import {
   BalanceSection,
   Navbar,
@@ -9,17 +9,11 @@ import {
   ServicesSection,
 } from "@/components";
 import { useAuth } from "@/utils/authHooks";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
+  const { isAuthenticated, useAuthlessRedirect } = useAuth();
 
-  useLayoutEffect(() => {
-    if (!isAuthenticated()) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, router]);
+  useAuthlessRedirect();
 
   if (!isAuthenticated()) return null;
 

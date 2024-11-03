@@ -17,11 +17,11 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function Topup() {
-  const { useAuthRedirect, isAuthenticated } = useAuth();
+  const { useAuthlessRedirect, isAuthenticated } = useAuth();
   const dispatch = useDispatch();
   const [topup, { isError, isSuccess, isLoading }] = useTopupMutation();
 
-  useAuthRedirect();
+  useAuthlessRedirect();
 
   useEffect(() => {
     if (isSuccess || isError) {

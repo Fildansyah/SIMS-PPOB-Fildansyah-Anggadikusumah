@@ -33,7 +33,7 @@ const PromoSection = () => {
 
   console.log(data);
 
-  const imageData = data?.data.map((item, index) => {
+  const imageData = data?.data.map((item) => {
     return item.banner_image;
   });
 

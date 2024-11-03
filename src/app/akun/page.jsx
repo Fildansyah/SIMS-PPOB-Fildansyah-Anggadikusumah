@@ -13,9 +13,9 @@ export default function Akun() {
   const responseData = data?.data;
   const { profileData } = useSelector(selectAuthState);
   const dispatch = useDispatch();
-  const { useAuthRedirect, isAuthenticated } = useAuth();
+  const { useAuthlessRedirect, isAuthenticated } = useAuth();
 
-  useAuthRedirect();
+  useAuthlessRedirect();
 
   useEffect(() => {
     if (isSuccess) {
