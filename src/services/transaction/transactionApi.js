@@ -26,7 +26,21 @@ export const transactionApi = createApi({
         },
       }),
     }),
+    transactionHistory: builder.query({
+      query: (params) => ({
+        url: "/transaction/history",
+        method: "GET",
+        params: params,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useTopupMutation, useTransactionMutation } = transactionApi;
+export const {
+  useTopupMutation,
+  useTransactionMutation,
+  useTransactionHistoryQuery,
+} = transactionApi;

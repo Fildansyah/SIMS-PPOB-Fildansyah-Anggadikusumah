@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, setProfileData } from "@/services/auth/authSlice";
 import { useAuth } from "@/utils/authHooks";
 import { selectAuthState } from "@/services/store";
+import { useRouter } from "next/navigation";
 
 export default function Akun() {
   const { data, isSuccess } = useGetProfileQuery();
@@ -16,6 +17,7 @@ export default function Akun() {
   const [isEditing, setIsEditing] = useState(false);
   const { useAuthRedirect } = useAuth();
   const { profileData } = useSelector(selectAuthState);
+  const router = useRouter();
   const responseData = data?.data;
 
   const dispatch = useDispatch();
@@ -147,6 +149,7 @@ export default function Akun() {
                 onClick={() => {
                   dispatch(logout());
                   setIsEditing(true);
+                  router.push("/login");
                 }}
                 className="w-full border border-red-500 py-2 rounded-sm text-red-500 font-semibold hover:bg-red-50 hover:shadow-md transition-all"
               >

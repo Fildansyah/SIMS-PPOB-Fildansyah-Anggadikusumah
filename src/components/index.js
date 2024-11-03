@@ -4,3 +4,4 @@ export * from "./RegistrationComponent";
 export * from "./HomeComponent";
 export * from "./TopupComponent";
 export * from "./PembayaranComponent";
+export * from "./TransactionComponent";
