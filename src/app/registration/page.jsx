@@ -3,7 +3,7 @@
 import { Logo, RegistNotificationModal, RegistrationForm } from "@/components";
 import Image from "next/image";
 import React from "react";
-import ilustrasi from "../../../public/assets/illustrasi_Login.png";
+import ilustrasi from "../../../public/assets/Illustrasi_Login.png";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/utils/authHooks";
 
