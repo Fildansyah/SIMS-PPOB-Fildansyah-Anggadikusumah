@@ -5,7 +5,8 @@ import registrationReducer from "./registration/registrationSlice";
 import { balanceApi } from "./balance/balanceApi";
 import { informationApi } from "./information/informationApi";
 import { transactionApi } from "./transaction/transactionApi";
-import { registrationApi } from "./registration/registrationAPI";
+import { registrationApi } from "./registration/registrationApi";
+import { profileApi } from "./profile/profileApi";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [informationApi.reducerPath]: informationApi.reducer,
     [transactionApi.reducerPath]: transactionApi.reducer,
     [registrationApi.reducerPath]: registrationApi.reducer,
+    [profileApi.reducerPath]: profileApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -24,6 +26,7 @@ export const store = configureStore({
       informationApi.middleware,
       transactionApi.middleware,
       registrationApi.middleware,
+      profileApi.middleware,
     ),
 });
 

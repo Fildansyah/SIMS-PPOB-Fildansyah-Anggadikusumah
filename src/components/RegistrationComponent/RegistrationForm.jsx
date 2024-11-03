@@ -18,7 +18,7 @@ import {
   setRegisterData,
   setRegistStatus,
 } from "@/services/registration/registrationSlice";
-import { useRegistrationMutation } from "@/services/registration/registrationAPI";
+import { useRegistrationMutation } from "@/services/registration/registrationApi";
 
 const RegistrationForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);

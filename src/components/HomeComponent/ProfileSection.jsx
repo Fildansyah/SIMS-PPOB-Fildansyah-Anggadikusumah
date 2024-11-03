@@ -31,19 +31,16 @@ const ProfileSection = () => {
     );
   }
 
-  const imageChecker = () => {
+  const isImageEmpty = () => {
     const parts = profileData.profile_image.split("/");
-    if (parts[3] === "null") {
-      return true;
-    }
-    return false;
+    return parts[parts.length - 1] === "null";
   };
 
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="w-[100px] h-[100px] relative overflow-hidden rounded-full">
         <Image
-          src={imageChecker() ? profileData.profile_image : profpic}
+          src={isImageEmpty() ? profpic : profileData.profile_image}
           alt="Profile Photo"
           fill
           className="rounded-full overflow-hidden object-cover"
