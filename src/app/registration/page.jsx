@@ -1,6 +1,6 @@
 "use client";
 
-import { Logo, RegistrationForm } from "@/components";
+import { Logo, RegistNotificationModal, RegistrationForm } from "@/components";
 import Image from "next/image";
 import React from "react";
 import ilustrasi from "../../../public/assets/illustrasi_Login.png";
@@ -31,6 +31,8 @@ export default function Registration() {
       <div className="w-full h-full relative bg-[#fff2f0]">
         <Image src={ilustrasi} alt="login" fill className="object-cover" />
       </div>
+
+      <RegistNotificationModal />
     </div>
   );
 }

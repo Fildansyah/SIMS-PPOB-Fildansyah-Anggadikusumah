@@ -5,38 +5,44 @@ import profpic from "../../../public/assets/Profile Photo.png";
 import Image from "next/image";
 import { MdAlternateEmail, MdEdit, MdOutlinePerson } from "react-icons/md";
 import { useGetProfileQuery } from "@/services/auth/authApi";
-import { useDispatch } from "react-redux";
-import { logout } from "@/services/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, setProfileData } from "@/services/auth/authSlice";
 import { useAuth } from "@/utils/authHooks";
+import { selectAuthState } from "@/services/store";
 
 export default function Akun() {
   const { data, isSuccess } = useGetProfileQuery();
   const [profileImage, setProfileImage] = useState(profpic);
   const [isEditing, setIsEditing] = useState(false);
   const { useAuthRedirect } = useAuth();
+  const { profileData } = useSelector(selectAuthState);
+  const responseData = data?.data;
 
   const dispatch = useDispatch();
-  const [bodyData, setBodyData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-  });
 
   useAuthRedirect();
 
   useEffect(() => {
-    const profileData = data?.data;
-
     if (isSuccess) {
-      setBodyData({
-        first_name: profileData?.first_name,
-        last_name: profileData?.last_name,
-        email: profileData?.email,
-      });
+      dispatch(
+        setProfileData({
+          first_name: responseData?.first_name,
+          last_name: responseData?.last_name,
+          email: responseData?.email,
+        }),
+      );
     }
 
-    if (profileData?.profile_image) {
-      setProfileImage(profileData?.profile_image);
+    const imageChecker = () => {
+      const parts = responseData.profile_image.split("/");
+      if (parts[3] === "null") {
+        return true;
+      }
+      return false;
+    };
+
+    if (isSuccess && imageChecker()) {
+      setProfileImage(responseData?.profile_image);
     }
   }, [data?.data, isSuccess]);
 
@@ -63,7 +69,7 @@ export default function Akun() {
           </div>
 
           <p className="text-3xl font-semibold">
-            {bodyData?.first_name} {bodyData?.last_name}
+            {profileData?.first_name} {profileData?.last_name}
           </p>
         </div>
 
@@ -72,9 +78,14 @@ export default function Akun() {
             <div className="flex flex-col gap-2">
               <label htmlFor="email">Email</label>
               <InputText
-                leftComponent={<MdAlternateEmail size={14} color="gray" />}
+                leftComponent={
+                  <MdAlternateEmail
+                    size={14}
+                    color={profileData?.email ? "black" : "gray"}
+                  />
+                }
                 placeholder="masukan email anda"
-                value={bodyData?.email}
+                value={profileData?.email}
                 type="email"
                 disabled={!isEditing}
               />
@@ -83,10 +94,15 @@ export default function Akun() {
             <div className="flex flex-col gap-2">
               <label htmlFor="email">Nama Depan</label>
               <InputText
-                leftComponent={<MdOutlinePerson size={14} color="gray" />}
+                leftComponent={
+                  <MdOutlinePerson
+                    size={14}
+                    color={profileData?.first_name ? "black" : "gray"}
+                  />
+                }
                 placeholder="nama depan"
                 type="text"
-                value={bodyData?.first_name}
+                value={profileData?.first_name}
                 disabled={!isEditing}
               />
             </div>
@@ -94,10 +110,15 @@ export default function Akun() {
             <div className="flex flex-col gap-2">
               <label htmlFor="email">Nama Belakang</label>
               <InputText
-                leftComponent={<MdOutlinePerson size={14} color="gray" />}
+                leftComponent={
+                  <MdOutlinePerson
+                    size={14}
+                    color={profileData?.last_name ? "black" : "gray"}
+                  />
+                }
                 placeholder="nama belakang"
                 type="text"
-                value={bodyData?.last_name}
+                value={profileData?.last_name}
                 disabled={!isEditing}
               />
             </div>

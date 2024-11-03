@@ -1,3 +1,4 @@
 import RegistrationForm from "./RegistrationForm";
+import RegistNotificationModal from "./RegistNotificationModal";
 
-export { RegistrationForm };
+export { RegistrationForm, RegistNotificationModal };

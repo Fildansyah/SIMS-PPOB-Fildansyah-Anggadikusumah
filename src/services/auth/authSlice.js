@@ -2,6 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: localStorage.getItem("token"),
+  profileData: {
+    email: "",
+    first_name: "",
+    last_name: "",
+    profile_image: "",
+  },
 };
 
 const authSlice = createSlice({
@@ -16,8 +22,11 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem("token");
     },
+    setProfileData: (state, action) => {
+      state.profileData = action.payload;
+    },
   },
 });
 
-export const { setToken, logout } = authSlice.actions;
+export const { setToken, logout, setProfileData } = authSlice.actions;
 export default authSlice.reducer;
