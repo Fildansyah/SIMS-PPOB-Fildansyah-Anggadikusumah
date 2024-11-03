@@ -48,7 +48,7 @@ export default function Pembayaran() {
       <div className="flex flex-col w-full px-52 py-10 gap-10">
         <div className="flex flex-row gap-5">
           <ProfileSection />
-          <BalanceSection />
+          <BalanceSection isBalanceVisible />
         </div>
 
         <div className="flex flex-col gap-14 ">

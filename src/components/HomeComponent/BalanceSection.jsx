@@ -4,8 +4,8 @@ import { useGetBalanceQuery } from "@/services/balance/balanceApi";
 import React, { useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
-const BalanceSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
+const BalanceSection = ({ isBalanceVisible = false }) => {
+  const [isVisible, setIsVisible] = useState(isBalanceVisible);
   const { data, isLoading } = useGetBalanceQuery();
 
   const handleVisibilityToggle = () => {
