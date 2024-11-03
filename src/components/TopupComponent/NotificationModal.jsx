@@ -1,18 +1,20 @@
+"use client";
 import React from "react";
 import { Modal } from "../common";
 import { MdCheck, MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTransactionState } from "@/services/store";
+import { SetCloseNotificationModal } from "@/services/transaction/transactionSlice";
 
-const NotificationModal = ({
-  isModalOpen,
-  setIsModalOpen,
-  amount,
-  isFailed,
-}) => {
+const NotificationModal = ({ isFailed }) => {
   const router = useRouter();
-
+  const { openNotificationModal, topUpAmount } = useSelector(
+    selectTransactionState,
+  );
+  const dispatch = useDispatch();
   return (
-    <Modal isOpen={isModalOpen}>
+    <Modal isOpen={openNotificationModal}>
       <div className="flex justify-center mb-6">
         <div
           className={`w-14 h-14 ${
@@ -30,7 +32,7 @@ const NotificationModal = ({
       <div className="flex gap-2 flex-col text-center mb-6">
         <p className="text-gray-600 ">Top Up sebesar</p>
         <p className="text-xl font-semibold">
-          Rp {parseInt(amount).toLocaleString("id-ID")}
+          Rp {parseInt(topUpAmount).toLocaleString("id-ID")}
         </p>
 
         <p className="text-gray-600">{isFailed ? "gagal" : "berhasil!"}</p>
@@ -38,7 +40,7 @@ const NotificationModal = ({
 
       <p
         onClick={() => {
-          setIsModalOpen(false);
+          dispatch(SetCloseNotificationModal());
           router.push("/");
         }}
         className=" text-red-500 hover:text-red-700 transition-colors font-semibold text-center cursor-pointer"

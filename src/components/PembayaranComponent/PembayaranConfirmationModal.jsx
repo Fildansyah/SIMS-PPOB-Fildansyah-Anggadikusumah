@@ -3,18 +3,23 @@ import React from "react";
 import { Modal } from "../common";
 import Image from "next/image";
 import logo from "../../../public/assets/Logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTransactionState } from "@/services/store";
+import { setCloseConfirmationModal } from "@/services/transaction/transactionSlice";
 
 const PembayaranConfirmationModal = ({
-  isModalOpen,
-  setIsModalOpen,
   amount,
   service_name,
   service_code,
   paymentFunc,
   loading,
 }) => {
+  const { openConfirmationModal } = useSelector(selectTransactionState);
+
+  const dispatch = useDispatch();
+
   return (
-    <Modal isOpen={isModalOpen}>
+    <Modal isOpen={openConfirmationModal}>
       <div className="flex justify-center mb-6">
         <div className="w-14 h-14 rounded-full relative flex items-center justify-center">
           <Image src={logo} alt="Logo" fill className="object-cover" />
@@ -42,7 +47,7 @@ const PembayaranConfirmationModal = ({
           Ya, lanjutkan Bayar
         </p>
         <p
-          onClick={() => setIsModalOpen(false)}
+          onClick={() => dispatch(setCloseConfirmationModal())}
           className=" text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
         >
           Batalkan

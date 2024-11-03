@@ -3,16 +3,16 @@
 import React from "react";
 import { Button, InputText } from "../common";
 import { MdOutlineMoney } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTransactionState } from "@/services/store";
+import {
+  setOpenConfirmationModal,
+  setTopUpAmount,
+} from "@/services/transaction/transactionSlice";
 
-const TopupInput = ({ amount, setAmount, setModalOpen }) => {
-  const suggestions = [
-    { label: "Rp10.000", value: 10000 },
-    { label: "Rp20.000", value: 20000 },
-    { label: "Rp50.000", value: 50000 },
-    { label: "Rp100.000", value: 100000 },
-    { label: "Rp250.000", value: 250000 },
-    { label: "Rp500.000", value: 500000 },
-  ];
+const TopupInput = () => {
+  const dispatch = useDispatch();
+  const { topUpAmount, topUpSuggestions } = useSelector(selectTransactionState);
 
   const formatAmount = (value) => {
     const numericValue = value.replace(/[^0-9]/g, "");
@@ -21,15 +21,15 @@ const TopupInput = ({ amount, setAmount, setModalOpen }) => {
 
   const handleAmountChange = (e) => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
-    setAmount(rawValue);
+    dispatch(setTopUpAmount(rawValue));
   };
 
   const handleSuggestionClick = (value) => {
-    setAmount(value.toString());
+    dispatch(setTopUpAmount(value.toString()));
   };
 
   const isAmountValid = () => {
-    const numericAmount = Number(amount);
+    const numericAmount = Number(topUpAmount);
     return numericAmount >= 10000 && numericAmount <= 1000000;
   };
   return (
@@ -37,17 +37,17 @@ const TopupInput = ({ amount, setAmount, setModalOpen }) => {
       <div className="flex flex-col gap-5 flex-[6]">
         <InputText
           leftComponent={
-            <MdOutlineMoney size={24} color={!amount ? "gray" : "black"} />
+            <MdOutlineMoney size={24} color={!topUpAmount ? "gray" : "black"} />
           }
           placeholder="Masukan Nominal Top Up"
           type="text"
-          value={formatAmount(amount)}
+          value={formatAmount(topUpAmount)}
           onChange={handleAmountChange}
         />
 
         <Button
-          disabled={!amount || !isAmountValid()}
-          onClick={() => setModalOpen(true)}
+          disabled={!topUpAmount || !isAmountValid()}
+          onClick={() => dispatch(setOpenConfirmationModal())}
           className="w-full bg-red-500 py-2 rounded-sm text-white font-semibold hover:bg-red-600 transition-all"
         >
           Top Up
@@ -56,7 +56,7 @@ const TopupInput = ({ amount, setAmount, setModalOpen }) => {
 
       <div className="flex-[4]">
         <div className="grid grid-cols-3 w-[80%] h-full gap-3 gap-x-2">
-          {suggestions.map((item, index) => (
+          {topUpSuggestions.map((item, index) => (
             <div
               key={index}
               onClick={() => handleSuggestionClick(item.value)}

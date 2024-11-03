@@ -8,25 +8,27 @@ import {
   TopupInput,
 } from "@/components";
 import { useTopupMutation } from "@/services/transaction/transactionApi";
+import {
+  setCloseConfirmationModal,
+  setOpenNotificationModal,
+} from "@/services/transaction/transactionSlice";
 import { useAuth } from "@/utils/authHooks";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Topup() {
-  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [openNotificationModal, setOpenNotificationModal] = useState(false);
   const { useAuthRedirect, isAuthenticated } = useAuth();
-
+  const dispatch = useDispatch();
   const [topup, { isError, isSuccess, isLoading }] = useTopupMutation();
-  const [amount, setAmount] = useState("");
 
   useAuthRedirect();
 
   useEffect(() => {
     if (isSuccess || isError) {
-      setOpenNotificationModal(true);
-      setOpenConfirmationModal(false);
+      dispatch(setOpenNotificationModal());
+      dispatch(setCloseConfirmationModal());
     }
-  }, [isError, isSuccess, setOpenNotificationModal]);
+  }, [dispatch, isError, isSuccess]);
 
   if (!isAuthenticated()) return null;
   return (
@@ -44,28 +46,13 @@ export default function Topup() {
             <p className="text-3xl font-semibold">Nominal Top Up</p>
           </div>
 
-          <TopupInput
-            amount={amount}
-            setAmount={setAmount}
-            setModalOpen={setOpenConfirmationModal}
-          />
+          <TopupInput />
         </div>
       </div>
 
-      <ConfirmationModal
-        isModalOpen={openConfirmationModal}
-        setIsModalOpen={setOpenConfirmationModal}
-        amount={amount}
-        topUpFunc={topup}
-        loading={isLoading}
-      />
+      <ConfirmationModal topUpFunc={topup} loading={isLoading} />
 
-      <NotificationModal
-        isModalOpen={openNotificationModal}
-        isFailed={isError}
-        setIsModalOpen={setOpenNotificationModal}
-        amount={amount}
-      />
+      <NotificationModal isFailed={isError} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import {
   BalanceSection,
   Navbar,
@@ -14,19 +14,14 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
     if (!isAuthenticated()) {
       router.push("/login");
-    } else {
-      setLoading(false);
     }
   }, [isAuthenticated, router]);
 
-  if (loading) {
-    return null;
-  }
+  if (!isAuthenticated()) return null;
 
   return (
     <div className="h-screen flex flex-col w-full ">

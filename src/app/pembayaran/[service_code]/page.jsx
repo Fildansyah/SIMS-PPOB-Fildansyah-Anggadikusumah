@@ -11,18 +11,23 @@ import {
 } from "@/components";
 import { useGetServicesQuery } from "@/services/information/informationApi";
 import { useTransactionMutation } from "@/services/transaction/transactionApi";
+import {
+  setCloseConfirmationModal,
+  setOpenConfirmationModal,
+  setOpenNotificationModal,
+} from "@/services/transaction/transactionSlice";
 import { useAuth } from "@/utils/authHooks";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MdOutlineMoney } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 export default function Pembayaran() {
   const params = useParams();
   const { service_code } = params;
   const { data, isSuccess, isLoading } = useGetServicesQuery();
-  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [openNotificationModal, setOpenNotificationModal] = useState(false);
+  const dispatch = useDispatch();
   const [
     transaction,
     {
@@ -39,10 +44,10 @@ export default function Pembayaran() {
 
   useEffect(() => {
     if (isTransactionSuccess || isErrorTransaction) {
-      setOpenNotificationModal(true);
-      setOpenConfirmationModal(false);
+      dispatch(setOpenNotificationModal());
+      dispatch(setCloseConfirmationModal());
     }
-  }, [isErrorTransaction, isTransactionSuccess, setOpenNotificationModal]);
+  }, [dispatch, isErrorTransaction, isTransactionSuccess]);
 
   if (!isAuthenticated()) return null;
   return (
@@ -96,7 +101,7 @@ export default function Pembayaran() {
 
             <Button
               type="button"
-              onClick={() => setOpenConfirmationModal(true)}
+              onClick={() => dispatch(setOpenConfirmationModal())}
               className="w-full bg-red-500 py-2 rounded-sm text-white font-semibold hover:bg-red-600 transition-all"
             >
               Bayar
@@ -107,9 +112,7 @@ export default function Pembayaran() {
 
       <PembayaranConfirmationModal
         amount={service?.service_tariff}
-        isModalOpen={openConfirmationModal}
         service_name={service?.service_name}
-        setIsModalOpen={setOpenConfirmationModal}
         service_code={service_code}
         paymentFunc={transaction}
         loading={isTransactionLoading}
@@ -118,8 +121,6 @@ export default function Pembayaran() {
       <PembayaranNotificationModal
         amount={service?.service_tariff}
         service_name={service?.service_name}
-        isModalOpen={openNotificationModal}
-        setIsModalOpen={setOpenNotificationModal}
       />
     </div>
   );

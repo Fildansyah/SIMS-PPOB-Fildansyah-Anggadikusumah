@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authApi } from "./auth/authApi";
 import authReducer from "./auth/authSlice";
+import transactionReducer from "./transaction/transactionSlice";
 import registrationReducer from "./registration/registrationSlice";
+
+import { authApi } from "./auth/authApi";
 import { balanceApi } from "./balance/balanceApi";
 import { informationApi } from "./information/informationApi";
 import { transactionApi } from "./transaction/transactionApi";
@@ -12,6 +14,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     registration: registrationReducer,
+    transaction: transactionReducer,
     [authApi.reducerPath]: authApi.reducer,
     [balanceApi.reducerPath]: balanceApi.reducer,
     [informationApi.reducerPath]: informationApi.reducer,
@@ -32,3 +35,4 @@ export const store = configureStore({
 
 export const selectAuthState = (state) => state.auth;
 export const selectRegistrationState = (state) => state.registration;
+export const selectTransactionState = (state) => state.transaction;

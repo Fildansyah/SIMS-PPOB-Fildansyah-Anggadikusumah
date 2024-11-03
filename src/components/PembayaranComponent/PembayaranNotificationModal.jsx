@@ -3,18 +3,17 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { Modal } from "../common";
 import { MdCheck, MdClose } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTransactionState } from "@/services/store";
+import { SetCloseNotificationModal } from "@/services/transaction/transactionSlice";
 
-const PembayaranNotificationModal = ({
-  isModalOpen,
-  setIsModalOpen,
-  amount,
-  service_name,
-  isFailed,
-}) => {
+const PembayaranNotificationModal = ({ amount, service_name, isFailed }) => {
   const router = useRouter();
+  const { openNotificationModal } = useSelector(selectTransactionState);
 
+  const dispatch = useDispatch();
   return (
-    <Modal isOpen={isModalOpen}>
+    <Modal isOpen={openNotificationModal}>
       <div className="flex justify-center mb-6">
         <div
           className={`w-14 h-14 ${
@@ -40,7 +39,7 @@ const PembayaranNotificationModal = ({
 
       <p
         onClick={() => {
-          setIsModalOpen(false);
+          dispatch(SetCloseNotificationModal());
           router.push("/");
         }}
         className=" text-red-500 hover:text-red-700 transition-colors font-semibold text-center cursor-pointer"
