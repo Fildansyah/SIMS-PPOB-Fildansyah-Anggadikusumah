@@ -9,7 +9,7 @@ import {
 } from "@/components";
 import { useTopupMutation } from "@/services/transaction/transactionApi";
 import { useAuth } from "@/utils/authHooks";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Topup() {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);

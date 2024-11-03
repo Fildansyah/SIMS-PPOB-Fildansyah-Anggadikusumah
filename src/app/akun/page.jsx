@@ -1,6 +1,6 @@
 "use client";
 import { Button, InputText, Navbar } from "@/components";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import profpic from "../../../public/assets/Profile Photo.png";
 import Image from "next/image";
 import { MdAlternateEmail, MdEdit, MdOutlinePerson } from "react-icons/md";

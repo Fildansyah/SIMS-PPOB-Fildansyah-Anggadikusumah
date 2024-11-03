@@ -1,10 +1,12 @@
 "use client";
 import { useGetServicesQuery } from "@/services/information/informationApi";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ServicesSection = () => {
   const { data, isLoading, error } = useGetServicesQuery();
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -30,7 +32,11 @@ const ServicesSection = () => {
   return (
     <div className="flex items-center justify-between gap-5">
       {data?.data.map((item, index) => (
-        <div key={index} className="flex flex-col items-center gap-2">
+        <div
+          onClick={() => router.push(`/pembayaran/${item.service_code}`)}
+          key={index}
+          className="flex flex-col items-center gap-2 cursor-pointer"
+        >
           <Image
             src={item.service_icon}
             alt={item.service_name}

@@ -16,7 +16,17 @@ export const transactionApi = createApi({
         },
       }),
     }),
+    transaction: builder.mutation({
+      query: (data) => ({
+        url: "/transaction",
+        method: "POST",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useTopupMutation } = transactionApi;
+export const { useTopupMutation, useTransactionMutation } = transactionApi;
