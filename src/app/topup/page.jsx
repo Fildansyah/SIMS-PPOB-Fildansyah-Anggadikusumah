@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 export default function Topup() {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [openNotificationModal, setOpenNotificationModal] = useState(false);
-  const { useAuthRedirect } = useAuth();
+  const { useAuthRedirect, isAuthenticated } = useAuth();
 
   const [topup, { isError, isSuccess, isLoading }] = useTopupMutation();
   const [amount, setAmount] = useState("");
@@ -28,6 +28,7 @@ export default function Topup() {
     }
   }, [isError, isSuccess, setOpenNotificationModal]);
 
+  if (!isAuthenticated()) return null;
   return (
     <div className="h-screen flex flex-col w-full ">
       <Navbar />

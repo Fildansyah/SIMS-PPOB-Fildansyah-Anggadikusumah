@@ -18,6 +18,10 @@ export default function Login() {
 
   const isError = error !== undefined ? true : false;
 
+  if (isAuthenticated()) {
+    return null;
+  }
+
   return (
     <div className="h-full flex relative">
       <div className="flex w-full gap-10 flex-col items-center justify-center px-[100px] py-10">

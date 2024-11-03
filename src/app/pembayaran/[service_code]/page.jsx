@@ -11,6 +11,7 @@ import {
 } from "@/components";
 import { useGetServicesQuery } from "@/services/information/informationApi";
 import { useTransactionMutation } from "@/services/transaction/transactionApi";
+import { useAuth } from "@/utils/authHooks";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -30,7 +31,9 @@ export default function Pembayaran() {
       isLoading: isTransactionLoading,
     },
   ] = useTransactionMutation();
+  const { useAuthRedirect, isAuthenticated } = useAuth();
 
+  useAuthRedirect();
   const service =
     isSuccess && data?.data.find((item) => item.service_code === service_code);
 
@@ -41,6 +44,7 @@ export default function Pembayaran() {
     }
   }, [isErrorTransaction, isTransactionSuccess, setOpenNotificationModal]);
 
+  if (!isAuthenticated()) return null;
   return (
     <div className="h-screen flex flex-col w-full ">
       <Navbar />

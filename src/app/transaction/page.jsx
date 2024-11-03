@@ -6,6 +6,7 @@ import {
   TransactionCard,
 } from "@/components";
 import { useTransactionHistoryQuery } from "@/services/transaction/transactionApi";
+import { useAuth } from "@/utils/authHooks";
 import React, { useState, useEffect } from "react";
 
 export default function Transaction() {
@@ -17,6 +18,10 @@ export default function Transaction() {
     limit,
     offset,
   });
+
+  const { useAuthRedirect, isAuthenticated } = useAuth();
+
+  useAuthRedirect();
 
   useEffect(() => {
     if (data?.data?.records) {
@@ -30,6 +35,8 @@ export default function Transaction() {
   const handleShowMore = () => {
     setOffset((prevOffset) => prevOffset + limit);
   };
+
+  if (!isAuthenticated()) return null;
 
   return (
     <div className="h-screen flex flex-col w-full overflow-hidden">

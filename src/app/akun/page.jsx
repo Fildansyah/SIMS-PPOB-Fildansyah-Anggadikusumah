@@ -10,10 +10,10 @@ import { selectAuthState } from "@/services/store";
 
 export default function Akun() {
   const { data, isSuccess, isLoading } = useGetProfileQuery();
-  const { useAuthRedirect } = useAuth();
   const responseData = data?.data;
   const { profileData } = useSelector(selectAuthState);
   const dispatch = useDispatch();
+  const { useAuthRedirect, isAuthenticated } = useAuth();
 
   useAuthRedirect();
 
@@ -36,6 +36,8 @@ export default function Akun() {
     responseData?.last_name,
     responseData?.profile_image,
   ]);
+
+  if (!isAuthenticated()) return null;
 
   const isImageEmpty = () => {
     const parts = profileData.profile_image.split("/");

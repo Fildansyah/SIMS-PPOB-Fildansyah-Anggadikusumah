@@ -2,12 +2,21 @@
 
 import { Logo, RegistNotificationModal, RegistrationForm } from "@/components";
 import Image from "next/image";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import ilustrasi from "../../../public/assets/illustrasi_Login.png";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/utils/authHooks";
 
 export default function Registration() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
+  useLayoutEffect(() => {
+    if (isAuthenticated()) router.push("/");
+  }, [isAuthenticated, router]);
+
+  if (isAuthenticated()) return null;
+
   return (
     <div className="h-full flex ">
       <div className="flex w-full gap-10 flex-col items-center justify-center px-[100px] py-10">
