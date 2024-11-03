@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Logo, LoginForm, Toast } from "@/components";
 
 import Image from "next/image";
@@ -10,10 +10,22 @@ import { useAuth } from "@/utils/authHooks";
 
 export default function Login() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, error, loginUser, useAuthRedirect } =
-    useAuth();
+  const {
+    isAuthenticated,
+    isLoading,
+    error,
+    isSuccess,
+    loginUser,
+    useAuthRedirect,
+  } = useAuth();
 
   const isError = error !== undefined ? true : false;
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/");
+    }
+  }, [isSuccess, router]);
 
   useAuthRedirect();
 

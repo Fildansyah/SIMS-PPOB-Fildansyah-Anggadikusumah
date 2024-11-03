@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading, error, isSuccess }] = useLoginMutation();
   const [token, setToken] = useState(null);
   const [isTokenLoaded, setIsTokenLoaded] = useState(false);
 
@@ -34,7 +34,7 @@ export const useAuth = () => {
     dispatch(logout());
   };
 
-  const isAuthenticated = async () => {
+  const isAuthenticated = () => {
     if (!token) {
       return false;
     }
@@ -60,7 +60,7 @@ export const useAuth = () => {
       if (isTokenLoaded && !isAuthenticated()) {
         router.push("/login");
       }
-    }, [router, isTokenLoaded, token]);
+    }, [isAuthenticated, isTokenLoaded]);
   };
 
   const useAuthRedirect = () => {
@@ -69,12 +69,13 @@ export const useAuth = () => {
       if (isTokenLoaded && isAuthenticated()) {
         router.push("/");
       }
-    }, [router, isTokenLoaded, token]);
+    }, [isAuthenticated]);
   };
 
   return {
     loginUser,
     isLoading,
+    isSuccess,
     error,
     logoutUser,
     isAuthenticated,
