@@ -25,12 +25,16 @@ export default function Transaction() {
 
   useEffect(() => {
     if (data?.data?.records) {
-      setTransactions((prevTransactions) => [
-        ...prevTransactions,
-        ...data.data.records,
-      ]);
+      if (offset === 0) {
+        setTransactions([...data.data.records]);
+      } else {
+        setTransactions((prevTransactions) => [
+          ...prevTransactions,
+          ...data.data.records,
+        ]);
+      }
     }
-  }, [data]);
+  }, [data, offset]);
 
   const handleShowMore = () => {
     setOffset((prevOffset) => prevOffset + limit);
@@ -80,7 +84,7 @@ export default function Transaction() {
             </div>
           )}
 
-          {!isLoading && !isError && data?.data?.records.length > 5 && (
+          {!isLoading && !isError && data?.data?.records.length >= 5 && (
             <p
               className="font-semibold text-red-500 hover:text-red-600 text-lg text-center cursor-pointer"
               onClick={handleShowMore}
